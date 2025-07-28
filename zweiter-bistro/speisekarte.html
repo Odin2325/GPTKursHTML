@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Speisekarte – Mein Bistro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/script.js" defer></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <header class="bg-red-600 text-white p-6 text-center text-2xl font-bold">
+    Mein Bistro
+  </header>
+
+  <nav class="bg-gray-800 text-white p-3 flex justify-center space-x-6">
+    <a href="index.html" class="hover:underline">Start</a>
+    <a href="speisekarte.html" class="hover:underline">Speisekarte</a>
+    <a href="kontakt.html" class="hover:underline">Kontakt</a>
+  </nav>
+
+  <main class="p-6 max-w-2xl mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Bestellung aufgeben</h2>
+
+    <form class="bg-white p-6 rounded shadow-md" id="bestellFormular">
+      <label class="block mb-2 font-semibold">Gericht auswählen:</label>
+      <select name="gericht" class="w-full p-2 mb-4 border rounded">
+        <option>Pizza Margherita</option>
+        <option>Spaghetti Bolognese</option>
+        <option>Salat mit Hähnchen</option>
+      </select>
+
+      <label class="block mb-2 font-semibold">Dein Name:</label>
+      <input type="text" name="name" class="w-full p-2 mb-4 border rounded" required>
+
+      <label class="block mb-2 font-semibold">Adresse:</label>
+      <textarea name="adresse" class="w-full p-2 mb-4 border rounded" required></textarea>
+
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        Bestellen
+      </button>
+    </form>
+  </main>
+
+  <footer class="bg-gray-900 text-white text-center p-4 mt-10">
+    © 2025 Mein Bistro
+  </footer>
+
+</body>
+</html>

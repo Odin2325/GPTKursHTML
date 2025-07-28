@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Speisekarte – Mein Bistro</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <h1>Speisekarte</h1>
+  <nav>
+    <a href="index.html">Startseite</a> |
+    <a href="speisekarte.html">Speisekarte</a> |
+    <a href="kontakt.html">Kontakt</a>
+  </nav>
+
+  <h2>Bestellung aufgeben</h2>
+
+  <form onsubmit="alert('Vielen Dank für deine Bestellung!'); return false;">
+    <label>Gericht auswählen:</label><br>
+    <select name="gericht">
+      <option>Pizza Margherita</option>
+      <option>Spaghetti Bolognese</option>
+      <option>Salat mit Hähnchen</option>
+    </select><br><br>
+
+    <label>Dein Name:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Adresse:</label><br>
+    <textarea name="adresse" required></textarea><br><br>
+
+    <button type="submit">Bestellen</button>
+  </form>
+</body>
+</html>
