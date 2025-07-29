@@ -1,0 +1,137 @@
+-- Generate 1000 clients
+SET NOCOUNT ON;
+DECLARE @i INT = 1;
+WHILE @i <= 1000
+BEGIN
+    INSERT INTO clients (name, email, phone, registration_date, status)
+    VALUES (
+        CONCAT('TestClient', @i),
+        CONCAT('test', @i, '@email.com'),
+        CONCAT('+1-555-', RIGHT('0000' + CAST(@i AS VARCHAR), 4)),
+        DATEADD(DAY, -@i, GETDATE()),
+        CASE WHEN @i % 20 = 0 THEN 'blocked' ELSE 'active' END
+    );
+    SET @i += 1;
+END
+
+-- Generate 100 vehicles
+DECLARE @j INT = 1;
+WHILE @j <= 100
+BEGIN
+    INSERT INTO fleet (vehicle_type, license_plate, manufacturer, model, year, capacity, status)
+    VALUES (
+        CASE WHEN @j % 3 = 0 THEN 'SUV' WHEN @j % 3 = 1 THEN 'Car' ELSE 'Van' END,
+        CONCAT('PLATE', @j),
+        CASE WHEN @j % 2 = 0 THEN 'Toyota' ELSE 'Volkswagen' END,
+        CONCAT('Model', @j),
+        2015 + (@j % 9),
+        4 + (@j % 5),
+        CASE WHEN @j % 10 = 0 THEN 'maintenance' ELSE 'active' END
+    );
+    SET @j += 1;
+END
+
+-- Generate 500 drivers
+DECLARE @k INT = 1;
+WHILE @k <= 500
+BEGIN
+    INSERT INTO drivers (name, phone, email, license_number, hire_date, status, vehicle_id)
+    VALUES (
+        CONCAT('Driver', @k),
+        CONCAT('+1-555-', RIGHT('0000' + CAST(@k AS VARCHAR), 4)),
+        CONCAT('driver', @k, '@email.com'),
+        CONCAT('D', RIGHT('000000' + CAST(@k AS VARCHAR), 6)),
+        DATEADD(DAY, -(@k % 365), GETDATE()),
+        CASE WHEN @k % 15 = 0 THEN 'inactive' ELSE 'active' END,
+        1 + (@k % 100)
+    );
+    SET @k += 1;
+END
+
+-- Generate 100 locations
+DECLARE @l INT = 1;
+WHILE @l <= 100
+BEGIN
+    INSERT INTO locations (address, city, state, country, latitude, longitude)
+    VALUES (
+        CONCAT(@l, ' Main Street'),
+        CONCAT('City', @l),
+        'StateX',
+        CASE WHEN @l % 2 = 0 THEN 'USA' ELSE 'Germany' END,
+        40.0 + (@l * 0.01),
+        -75.0 + (@l * 0.01)
+    );
+    SET @l += 1;
+END
+
+-- Generate 5000 payments
+DECLARE @m INT = 1;
+WHILE @m <= 5000
+BEGIN
+    INSERT INTO payments (client_id, amount, payment_time, payment_method, status)
+    VALUES (
+        1 + (@m % 1000),
+        ROUND(RAND() * 100 + 10, 2),
+        DATEADD(MINUTE, -@m, GETDATE()),
+        CASE WHEN @m % 3 = 0 THEN 'card' WHEN @m % 3 = 1 THEN 'cash' ELSE 'paypal' END,
+        CASE WHEN @m % 33 = 0 THEN 'failed' ELSE 'paid' END
+    );
+    SET @m += 1;
+END
+
+-- Generate 10,000 orders
+DECLARE @n INT = 1;
+WHILE @n <= 10000
+BEGIN
+    INSERT INTO orders (
+        client_id, driver_id, vehicle_id, pickup_location_id, dropoff_location_id,
+        order_time, pickup_time, dropoff_time, status, price, distance_km, payment_id
+    )
+    VALUES (
+        1 + (@n % 1000),
+        1 + (@n % 500),
+        1 + (@n % 100),
+        1 + (@n % 100),
+        1 + ((@n * 2) % 100),
+        DATEADD(MINUTE, -@n * 2, GETDATE()),
+        DATEADD(MINUTE, -@n * 2 + 5, GETDATE()),
+        DATEADD(MINUTE, -@n * 2 + 40, GETDATE()),
+        CASE WHEN @n % 20 = 0 THEN 'cancelled'
+             WHEN @n % 10 = 0 THEN 'pending'
+             ELSE 'completed' END,
+        ROUND(RAND() * 50 + 5, 2),
+        ROUND(RAND() * 30 + 1, 1),
+        1 + (@n % 5000)
+    );
+    SET @n += 1;
+END
+
+-- Generate 3000 feedback entries (for first 3000 orders)
+DECLARE @o INT = 1;
+WHILE @o <= 3000
+BEGIN
+    INSERT INTO feedback (order_id, client_id, driver_id, rating, comments, feedback_time)
+    VALUES (
+        @o,
+        1 + (@o % 1000),
+        1 + (@o % 500),
+        1 + (@o % 5),
+        CONCAT('Sample feedback comment #', @o),
+        DATEADD(DAY, -(@o % 365), GETDATE())
+    );
+    SET @o += 1;
+END
+
+-- Generate 500 driver assignments (one per driver)
+DECLARE @p INT = 1;
+WHILE @p <= 500
+BEGIN
+    INSERT INTO driver_assignments (driver_id, vehicle_id, start_time, end_time)
+    VALUES (
+        @p,
+        1 + (@p % 100),
+        DATEADD(DAY, -(@p % 365), GETDATE()),
+        NULL -- still assigned
+    );
+    SET @p += 1;
+END
